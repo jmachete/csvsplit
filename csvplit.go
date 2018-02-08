@@ -37,8 +37,11 @@ You can use the -output flag to customize the resulting filenames.
 The below will generate custom_filename-001.csv, custom_filename-002.csv, etc..
 	$ csvsplit -records 20 -output custom_filename- file.csv
 
-Split file.csv into files with 37 records a piece into the subfolder 'stuff'.
-	$ csvplit -records 37 -output stuff/ file.csv
+Split file.csv into files with 37 records a piece into the subfolder 'temp'.
+	$ csvplit -records 37 -output temp/ file.csv
+
+Example:
+./csvplit -records 150000 -headers 1 -output temp/custom_filename- iaevents.csv
 */
 package main
 
@@ -59,6 +62,10 @@ var (
 )
 
 func main() {
+
+	os.RemoveAll("temp/")
+	os.MkdirAll("temp/", os.ModePerm)
+
 	flag.Parse()
 
 	// Sanity check command line flags.
